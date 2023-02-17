@@ -29,6 +29,10 @@ public class Student {
     @Column(nullable = false)
     private Integer age;
 
+    // orphanRemoval -> when delete student then also delete studentIdCard
+    @OneToOne(mappedBy = "student", orphanRemoval = true) // create bi-directional releation (sql -> left outer join with student_id_card...)
+    private StudentIdCard studentIdCard;
+
     public Student() {
     }
 
