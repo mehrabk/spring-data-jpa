@@ -20,9 +20,13 @@ public class SpringDataJpaApplication {
 			@Override
 			public void run(String... args) throws Exception {
 				studentRepository.save(new Student("mehrab", "kor", "mehrab.kor@gmail.com", 29));
-				studentRepository.save(new Student("mehrab", "kor2", "mehrab.kor2@gmail.com", 29));
+				studentRepository.save(new Student("mehrab2", "kor2", "mehrab.kor2@gmail.com", 29));
 				studentRepository.getStudentsByEmail("mehrab.kor@gmail.com").ifPresentOrElse(System.out::println, () -> System.out.println("mehrab not found"));
 				studentRepository.findStudentsByFirstNameEqualsAndAgeEquals("mehrab", 29).forEach(System.out::println);
+				studentRepository.getStudentByEmailAddress("mehrab.kor2@gmail.com").ifPresentOrElse(System.out::println, () -> System.out.println("mehrab2 not found"));
+				studentRepository.getStudentFromNativQuery("mehrab2", 20).ifPresentOrElse(System.out::println, () -> System.out.println("mehrab2 not found"));
+				System.out.println(studentRepository.deleteStudentByID(2L));
+
 			}
 		};
 	}

@@ -2,7 +2,7 @@ package com.mehrab.springdatajpa.model;
 
 import jakarta.persistence.*;
 
-@Entity
+@Entity(name = "Student")
 @Table(
         uniqueConstraints = {
                 @UniqueConstraint(
