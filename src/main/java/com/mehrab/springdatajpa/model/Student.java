@@ -2,6 +2,9 @@ package com.mehrab.springdatajpa.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity(name = "Student")
 @Table(
         uniqueConstraints = {
@@ -30,8 +33,11 @@ public class Student {
     private Integer age;
 
     // orphanRemoval -> when delete student then also delete studentIdCard
-    @OneToOne(mappedBy = "student", orphanRemoval = true) // create bi-directional releation (sql -> left outer join with student_id_card...)
+    @OneToOne(mappedBy = "student", orphanRemoval = true, cascade = CascadeType.ALL) // create bi-directional relationship (sql -> left outer join with student_id_card...)
     private StudentIdCard studentIdCard;
+
+    @OneToMany(mappedBy = "student", orphanRemoval = true, cascade = CascadeType.ALL) // create bi-directional relationshi
+    private List<Book> books = new ArrayList<>();
 
     public Student() {
     }
@@ -83,6 +89,28 @@ public class Student {
         this.age = age;
     }
 
+    public void setStudentIdCard(StudentIdCard studentIdCard) {
+        this.studentIdCard = studentIdCard;
+    }
+
+    public void addBook(Book book) {
+        if(!books.contains(book)) {
+            books.add(book);
+            book.setStudent(this);
+        }
+    }
+
+    public void removeBook(Book book) {
+        if(this.books.contains(book)) {
+            this.books.remove(book);
+            book.setStudent(null);
+        }
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -94,3 +122,5 @@ public class Student {
                 '}';
     }
 }
+// student_id_card & book -> eager fetch then:
+//  student left join student_id_card and book tables
