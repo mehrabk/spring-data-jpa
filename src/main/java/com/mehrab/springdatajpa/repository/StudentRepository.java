@@ -5,11 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
+@Transactional(readOnly = true)
 public interface StudentRepository extends JpaRepository<Student, Long> {
     Optional<Student> getStudentsByEmail(String email);
 
@@ -22,7 +25,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query(value = "select s.* from student s where s.first_name = :firstName AND s.age >= :age", nativeQuery = true) // native for postgresql
     Optional<Student> getStudentFromNativQuery(@Param("firstName") String firstName, @Param("age") Integer age);
 
-    @Transactional // DML statemet and create session
+    @Transactional // for perform DML statemet and create session -> default readOnly=false
     @Modifying // tell to spring data to we doest need to map data from database to entity
     @Query("DELETE FROM Student s WHERE s.id = ?1")
     int deleteStudentByID(Long id);
