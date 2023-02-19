@@ -4,7 +4,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/springdata
-    username: postgres
+#    username: postgres
+    username: mehrab
     password: password
 
   jpa:
