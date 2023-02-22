@@ -68,15 +68,13 @@ public class Course {
     }
 
     public void addEnrolment(Enrolment enrolment) {
-        if(enrolments.contains(enrolment)) {
+        if(!enrolments.contains(enrolment)) {
             enrolments.add(enrolment);
         }
     }
 
     public void removeEnrolment(Enrolment enrolment) {
-        if(enrolments.contains(enrolment)) {
-            enrolments.remove(enrolment);
-        }
+        enrolments.remove(enrolment);
     }
 
     @Override

@@ -28,31 +28,57 @@ public class SpringDataJpaApplication {
 	CommandLineRunner commandLineRunner(StudentRepository studentRepository, StudentIdCardRepository studentIdCardRepository) {
 		return args -> {
 			Faker faker = new Faker();
+
 			String firstName = faker.name().firstName();
 			String lastName = faker.name().lastName();
-			String email = String.format("%s.%s@gmail.com", firstName, lastName);
+			String email = String.format("%s.%s@amigoscode.edu", firstName, lastName);
+			Student student = new Student(
+					firstName,
+					lastName,
+					email,
+					faker.number().numberBetween(17, 55));
 
-			Student st = new Student(firstName, lastName, email, faker.number().numberBetween(17, 55));
+			Book b1 = new Book("Clean Code", LocalDateTime.now().minusDays(4));
+			student.addBook(b1);
+			Book b2 = new Book("Spring Data JPA", LocalDateTime.now().minusYears(1));
+			student.addBook(b2);
+			Book b3 = new Book("Think and Grow Rich", LocalDateTime.now());
+			student.addBook(b3);
 
-			st.addBook(new Book(LocalDateTime.now().minusDays(4),"Clean Code"));
-			st.addBook(new Book(LocalDateTime.now(),"Gang Of Four"));
-			st.addBook(new Book(LocalDateTime.now().minusYears(1),"Spring Data JPA"));
+			StudentIdCard studentIdCard = new StudentIdCard(
+					"123456789",
+					student);
 
-			StudentIdCard sic = new StudentIdCard("1234567890", st);
-			st.setStudentIdCard(sic);
+			student.setStudentIdCard(studentIdCard);
 
-			Course c1 =  new Course("Computer Sience", "IT");
-			Course c2 = new Course("Data Mining", "AI");
+			Course c1 = new Course("Computer Science", "IT");
+			Course c2 = new Course("Big Data", "AI");
 
-			Enrolment e1 = new Enrolment(st, c1, LocalDateTime.now().minusDays(18));
-			Enrolment e2 = new Enrolment(st, c2, LocalDateTime.now().minusDays(10));
+			student.addEnrolment(new Enrolment(
+					new EnrolmentId(student.getId(), c1.getId()),
+					student,
+					c1,
+					LocalDateTime.now()
+			));
 
-			// ???
-			st.addEnrolment(e1);
-			st.addEnrolment(e2);
+			student.addEnrolment(new Enrolment(
+					new EnrolmentId(student.getId(), c2.getId()),
+					student,
+					c2,
+					LocalDateTime.now().minusDays(18)
+			));
 
-			studentRepository.save(st);
-			studentRepository.findById(1L);
+			studentRepository.save(student);
+
+			studentRepository.findById(1L)
+					.ifPresent(s -> {
+						System.out.println("fetch book lazy...");
+						List<Book> books = student.getBooks();
+						books.forEach(book -> {
+							System.out.println(
+									s.getFirstName() + " borrowed " + book.getBookName());
+						});
+					});
 		};
 	}
 

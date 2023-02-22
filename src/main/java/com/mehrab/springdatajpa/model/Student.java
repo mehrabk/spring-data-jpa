@@ -7,6 +7,7 @@ import java.util.List;
 
 @Entity(name = "Student")
 @Table(
+        name = "student",
         uniqueConstraints = {
                 @UniqueConstraint(
                         name = "student_email_uk", columnNames = "email"
@@ -137,7 +138,7 @@ public class Student {
     }
 
     public void addEnrolment(Enrolment enrolment) {
-        if(enrolments.contains(enrolment)) {
+        if(!enrolments.contains(enrolment)) {
             enrolments.add(enrolment);
         }
     }

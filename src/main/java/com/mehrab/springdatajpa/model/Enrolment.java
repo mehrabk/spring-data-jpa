@@ -8,21 +8,28 @@ import java.time.LocalDateTime;
 @Table(name = "enrolment")
 public class Enrolment {
 
-    @EmbeddedId
+    @EmbeddedId // primary key is composite of two foreign key (studentId & courseId)
     private EnrolmentId id;
 
     @ManyToOne
-    @MapsId("student_id") // student id is part of this Entity id(pk)
+    @MapsId("studentId")
     @JoinColumn(name = "student_id", foreignKey = @ForeignKey(name = "enrolment_student_id_fk"))
     private Student student;
 
     @ManyToOne
-    @MapsId("course_id")
+    @MapsId("courseId")
     @JoinColumn(name = "course_id", foreignKey = @ForeignKey(name = "enrolment_course_id_fk"))
     private Course course;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+
+    public Enrolment(EnrolmentId id, Student student, Course course, LocalDateTime createdAt) {
+        this.id = id;
+        this.student = student;
+        this.course = course;
+        this.createdAt = createdAt;
+    }
 
     public Enrolment(Student student, Course course, LocalDateTime createdAt) {
         this.student = student;
