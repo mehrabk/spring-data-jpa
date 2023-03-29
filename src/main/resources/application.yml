@@ -3,15 +3,15 @@ spring:
     name: spring-data-jpa
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/springdata
+    url: jdbc:mysql://localhost:3306/spring-data
 #    username: postgres
     username: mehrab
-    password: password
+    password: zaq123ZAQ!@#
 
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
     hibernate:

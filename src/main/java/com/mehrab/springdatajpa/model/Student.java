@@ -1,11 +1,14 @@
 package com.mehrab.springdatajpa.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "Student")
+// table constraint not work !!
 @Table(
         name = "student",
         uniqueConstraints = {

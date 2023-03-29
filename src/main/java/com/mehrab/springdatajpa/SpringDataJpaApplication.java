@@ -25,13 +25,13 @@ public class SpringDataJpaApplication {
 	}
 
 	@Bean
-	CommandLineRunner commandLineRunner(StudentRepository studentRepository, StudentIdCardRepository studentIdCardRepository) {
+	CommandLineRunner commandLineRunner(StudentRepository studentRepository) {
 		return args -> {
 			Faker faker = new Faker();
 
 			String firstName = faker.name().firstName();
 			String lastName = faker.name().lastName();
-			String email = String.format("%s.%s@amigoscode.edu", firstName, lastName);
+			String email = String.format("%s.%s@gmail.com", firstName, lastName);
 			Student student = new Student(
 					firstName,
 					lastName,
@@ -69,6 +69,7 @@ public class SpringDataJpaApplication {
 			));
 
 			studentRepository.save(student);
+			studentRepository.save(new Student("mehrab", "kor", email, 29));
 
 			studentRepository.findById(1L)
 					.ifPresent(s -> {
