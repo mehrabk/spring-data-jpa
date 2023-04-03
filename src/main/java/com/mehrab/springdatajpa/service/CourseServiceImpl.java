@@ -33,9 +33,9 @@ public class CourseServiceImpl implements CourseService {
             IntStream.range(1, 10).forEach((i) -> {
                 courseRepository.save(new Course("Course-" + i, "Department-" + i ));
                 System.out.println("Course Created");
-                if(i == 7) {
-                    throw new NotFoundException("simulate runtime exception");
-                }
+//                if(i == 7) {
+//                    throw new NotFoundException("simulate runtime exception");
+//                }
             });
         } catch (Exception e) {
             e.printStackTrace();

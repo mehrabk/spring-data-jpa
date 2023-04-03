@@ -69,7 +69,6 @@ public class SpringDataJpaApplication {
 			));
 
 			studentRepository.save(student);
-			studentRepository.save(new Student("mehrab", "kor", email, 29));
 
 			studentRepository.findById(1L)
 					.ifPresent(s -> {
