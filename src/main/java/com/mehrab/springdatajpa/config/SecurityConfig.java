@@ -1,6 +1,7 @@
 package com.mehrab.springdatajpa.config;
 
 import com.mehrab.springdatajpa.security.person.UserPwdConfigurer;
+import com.mehrab.springdatajpa.security.robot.RobotLoginConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationEventPublisher;
@@ -25,7 +26,8 @@ public class SecurityConfig {
                 })
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
-                .apply(new UserPwdConfigurer())
+//                .apply(new UserPwdConfigurer())
+                .apply(new RobotLoginConfigurer())
                 .and().build();
     }
 
